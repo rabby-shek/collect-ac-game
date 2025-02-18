@@ -86,9 +86,9 @@ function createProducts(count) {
       gameArea.removeChild(product);
       clearInterval(productFall);
       activeProducts.delete(leftPos);
-      if (score % 5 === 0) {
-        speedUp();
-      }
+      // if (score % 5 === 0) {
+      //   speedUp();
+      // }
     });
   }
 }
