@@ -76,12 +76,20 @@ body {
   margin: 20px 0;
   font-weight: bold;
 }
-
+@keyframes moveDown {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%; /* You can adjust the value */
+  }
+}
 .product {
   position: absolute;
   width: 10vw; /* Make the fruit's width responsive to the viewport width */
   max-width: 60px; /* Maximum size for the fruit */
   cursor: pointer;
+  animation: moveDown 3s linear infinite;
 }
 
 .pop-up {
