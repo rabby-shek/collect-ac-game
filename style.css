@@ -30,7 +30,7 @@ body {
   border: 20px solid transparent; /* Set border width */
   border-image: url("https://img.freepik.com/free-vector/geometric-shapes-pattern-background_1319-136.jpg?uid=R179538254&ga=GA1.1.1248623428.1734437876&semt=ais_hybrid")
     30 stretch; /* Image as border */
-  background-color: #f73232;
+  background-color: #fff;
   overflow: hidden;
   margin: 20px auto;
 }

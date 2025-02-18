@@ -13,7 +13,7 @@ let products = [
 ];
 
 let score = 0;
-let fallingSpeed = 3000; // Initial speed (milliseconds) -> 3 sec
+let fallingSpeed = 1000; // Initial speed (milliseconds) -> 3 sec
 let gameInterval;
 let gameTimer;
 let gameDuration = 120000; // 120 seconds
@@ -27,7 +27,7 @@ startButton.addEventListener("click", startGame);
 function startGame() {
   startButton.style.display ="none";
   score = 0;
-  fallingSpeed = 3000; // Reset speed
+  fallingSpeed = 1000; // Reset speed
   resultDisplay.textContent = "";
   scoreDisplay.textContent = `Score: ${score}`;
   remainingTime = 120;
@@ -86,9 +86,9 @@ function createProducts(count) {
       gameArea.removeChild(product);
       clearInterval(productFall);
       activeProducts.delete(leftPos);
-      // if (score % 5 === 0) {
-      //   speedUp();
-      // }
+      if (score % 5 === 0) {
+        speedUp();
+      }
     });
   }
 }
@@ -102,10 +102,10 @@ function isOverlapping(position) {
 
 function speedUp() {
   clearInterval(gameInterval);
-  fallingSpeed -= 300;
+  fallingSpeed -= 50;
   if (fallingSpeed < 1000) fallingSpeed = 1000;
   gameInterval = setInterval(
-    () => createProducts(Math.floor(Math.random() * 3) + 1),
+    () => createProducts(Math.floor(Math.random() * 2) + 1),
     fallingSpeed
   );
 }
