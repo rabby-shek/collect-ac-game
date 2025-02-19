@@ -76,20 +76,20 @@ body {
   margin: 20px 0;
   font-weight: bold;
 }
-@keyframes moveDown {
+/* @keyframes moveDown {
   0% {
     top: 0;
   }
   100% {
-    top: 100%; /* You can adjust the value */
+    top: 100%; 
   }
-}
+} */
 .product {
   position: absolute;
   width: 10vw; /* Make the fruit's width responsive to the viewport width */
   max-width: 60px; /* Maximum size for the fruit */
   cursor: pointer;
-  animation: moveDown 3s linear infinite;
+  /* animation: moveDown 3s linear infinite; */
 }
 
 .pop-up {
@@ -114,7 +114,23 @@ body {
   align-items: center;
   gap: 20px;
 }
-
+.starting-in{
+  display: none;
+  font-size: 14px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #111111;
+  padding: 20px;
+  width: 80%; /* Reduce width */
+  max-width: 500px;
+  background-color: #fff;
+  z-index: 10;
+}
 @media (max-width: 600px) {
   #game-area {
     height: 60vh; /* Adjust the game area height on smaller screens */
