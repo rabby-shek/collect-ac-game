@@ -107,6 +107,8 @@ function increaseSpeed() {
     fallSpeed -= 500; // Further reduce the speed at higher scores
   } else if (score >= 200 && fallSpeed > 3000) {
     fallSpeed -= 500; // Speed up even more after 200 points
+  } else if (score >= 300 && fallSpeed > 2000) {
+    fallSpeed -= 500; // Speed up even more after 200 points
   }
 }
 
