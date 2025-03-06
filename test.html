@@ -3,309 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Catch the Falling Items</title>
     <style>
-        * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
-  font-family: "Orbitron", serif;
-  padding: 10px;
-  overflow: hidden; /* Prevents scrolling */
-}
-
-#game-container {
-  text-align: center;
-  width: 100%;
-  max-width: 500px; /* Max width for larger screens */
-}
-
-#game-area {
-  position: relative;
-  width: 100%;
-  height: 70vh; /* 60% of the viewport height */
-  max-width: 470px; /* Maximum width */
-  max-height: 600px;
-  border: 20px solid transparent; /* Set border width */
-  border-image: url("https://img.freepik.com/free-vector/geometric-shapes-pattern-background_1319-136.jpg?uid=R179538254&ga=GA1.1.1248623428.1734437876&semt=ais_hybrid")
-    30 stretch; /* Image as border */
-  background-color: #fff;
-  overflow: hidden;
-  margin: 20px auto;
-}
-
-#score-board {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
-#score {
-  font-size: 14px;
-  font-weight: 700;
-}
-.time {
-  position: absolute;
-  font-size: 14px;
-  top: 10px;
-  right: 10px;
-  font-weight: 700;
-}
-#result {
-  font-size: 14px;
-}
-.message{
-  font-size: 14px;
-  color: #ff1b1b;
-}
-#start-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.btn-design {
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  background-color: #ffffff;
-  color: #111111;
-  border: 2px solid #111111;
-  outline: none;
-  margin: 20px 0;
-  font-weight: bold;
-}
-/* @keyframes moveDown {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: 100%; 
-  }
-} */
-.product {
-  position: absolute;
-  width: 10vw; /* Make the fruit's width responsive to the viewport width */
-  max-width: 60px; /* Maximum size for the fruit */
-  cursor: pointer;
-  /* animation: moveDown 3s linear infinite; */
-}
-
-.pop-up {
-  display: none;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid #111111;
-  padding: 20px;
-  width: 80%; /* Reduce width */
-  max-width: 500px;
-  background-color: #fff;
-  z-index: 10;
-}
-.pop-up-button-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.starting-in{
-  display: none;
-  font-size: 14px;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid #111111;
-  padding: 20px;
-  width: 80%; /* Reduce width */
-  max-width: 500px;
-  background-color: #fff;
-  z-index: 10;
-}
-.blue-block {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 20px;
-            background-color: blue;
-            border-radius: 5px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
         }
-@media (max-width: 600px) {
-  #game-area {
-    height: 60vh; /* Adjust the game area height on smaller screens */
-  }
 
-  .product {
-    width: 20vw; /* Increase fruit size slightly for smaller screens */
-    max-width: 50px;
-  }
-}
+        .game-container {
+            position: relative;
+        }
 
-@media (max-width: 400px) {
-  #game-area {
-    height: 60vh; /* Further reduce the game area height on very small screens */
-  }
+        canvas {
+            background-color: #e0e0e0;
+            display: block;
+        }
 
-  .product {
-    width: 25vw; /* Increase fruit size more on very small screens */
-    max-width: 45px;
-  }
-}
+        .game-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #333;
+            font-size: 20px;
+        }
 
+        #restart-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #restart-btn:hover {
+            background-color: #45a049;
+        }
+
+        .pop-up {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .pop-up-content {
+            background: #333;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .pop-up button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .pop-up button:hover {
+            background-color: #45a049;
+        }
+
+        .starting-in {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #333;
+        }
     </style>
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="game-container">
-        <h3>Collect ACs</h3>
-        <div id="game-area">
-            <div class="time"></div>
-            <div id="score-board">
-                <span id="score">Score: 0</span>
-            </div>
-            <button id="start-btn" class="btn-design">Start Game</button>
-            <div class="pop-up">
-                <p class="message"></p>
-                <div class="pop-up-button-container">
-                    <button class="restart-btn btn-design">Restart</button>
-                    <button class="next-btn btn-design">Next</button>
-                </div>
-            </div>
-            <div class="starting-in">Starting in 3</div>
-            <div class="blue-block" id="blue-block"></div>
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-info">
+            <div id="score">Score: 0</div>
+            <div id="timer">Time: 120</div>
         </div>
-        <div id="result"></div>
+        <button id="restart-btn">Restart Game</button>
+
+        <!-- Pop-up for Game Over -->
+        <div class="pop-up" id="popUp">
+            <div class="pop-up-content">
+                <div id="popUpMessage">Game Over!</div>
+                <button id="nextPageBtn">Next Page</button>
+                <button id="restartBtn">Restart Game</button>
+            </div>
+        </div>
+
+        <div class="starting-in" id="startingIn">Starting in 3</div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-
     <script>
-    const gameArea = document.getElementById("game-area");
-        const scoreDisplay = document.getElementById("score");
-        const startButton = document.getElementById("start-btn");
-        const timeDisplay = document.querySelector(".time");
-        const blueBlock = document.getElementById("blue-block");
-        const popup = document.getElementById("game-popup");
-        const message = document.querySelector(".message");
-        const restartButton = document.querySelector(".restart-btn");
+        // Game setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const restartBtn = document.getElementById('restart-btn');
+        const popUp = document.getElementById('popUp');
+        const popUpMessage = document.getElementById('popUpMessage');
+        const startingIn = document.getElementById('startingIn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const restartGameBtn = document.getElementById('restartBtn');
+
         let score = 0;
-        let remainingTime = 120;
-        let gameTimer, spawnInterval;
-        let fallSpeed = 5000;
-        let moveLeft = false, moveRight = false;
+        let timeRemaining = 120;
+        let gameOver = false;
+        let blockX = 0;
+        let isDragging = false;
+        let offsetX = 0;
 
-        let products = [
-            "https://rangsemart.com.bd/upload/Product/thumbnail_img1730969599.jpeg",
-            "https://rangsemart.com.bd/upload/Product/thumbnail_img1725422009.png"
-        ];
-        let correctProduct = products[0];
+        // Load images for falling items
+        const watermelonImage = new Image();
+        const schoolIconImage = new Image();
 
-        function startGame() {
-            startButton.style.display = "none";
-            popup.style.display = "none";
+        watermelonImage.src = 'https://img.freepik.com/free-psd/3d-rendering-watermelon_23-2151553554.jpg?t=st=1741239103~exp=1741242703~hmac=c149c54bd45fd310e088506904bffd9a97ac7dd9b8e4724afd79e591cb8e1826&w=740';
+        schoolIconImage.src = 'https://img.freepik.com/free-psd/3d-rendering-back-school-icon_23-2149589325.jpg?t=st=1741239146~exp=1741242746~hmac=e9e211a9deceb0adb7e8e24f7707ebf7eb38ec4c66adb86fa8a7f4c2a31cb412&w=740';
+
+        const blenderImage = new Image();
+        blenderImage.src = 'https://img.freepik.com/free-vector/blender-with-red-lid_1308-11612.jpg?t=st=1741238810~exp=1741242410~hmac=45808ce1e8daf56c48378be8ddeefb3c8949ea38e583829386453710a4772325&w=740';
+
+        // Wait for blender image to load before starting the game loop
+        blenderImage.onload = function() {
+            initGame();
+        };
+
+        let fallingBlockX = Math.random() * canvas.width;
+        let fallingBlockY = 0;
+        let fallingBlockSpeed = 3;
+        let fallingBlockImage = watermelonImage; // Start with watermelon
+
+        // Initialize the game
+        function initGame() {
             score = 0;
-            remainingTime = 120;
-            scoreDisplay.textContent = `Score: ${score}`;
-            timeDisplay.textContent = `Time: ${remainingTime} sec`;
-            gameTimer = setInterval(updateTime, 1000);
-            spawnInterval = setInterval(createProduct, 800);
+            timeRemaining = 120;
+            gameOver = false;
+            blockX = (canvas.width - 100) / 2;
+            fallingBlockY = 0;
+            fallingBlockSpeed = 3;
+
+            scoreElement.textContent = `Score: ${score}`;
+            timerElement.textContent = `Time: ${timeRemaining}`;
+            restartBtn.style.display = 'none';
+            popUp.style.display = 'none';
+            startingIn.style.display = 'block';
+            countdown();
         }
 
-        function updateTime() {
-            remainingTime--;
-            timeDisplay.textContent = `Time: ${remainingTime} sec`;
-            if (remainingTime <= 0) endGame();
+        // Adjust canvas size to be responsive
+        function resizeCanvas() {
+            canvas.width = window.innerWidth * 0.8;
+            canvas.height = window.innerHeight * 0.6;
+
+            blockX = (canvas.width - 100) / 2;
+            fallingBlockX = Math.random() * canvas.width;
         }
 
-        function moveBlueBlock() {
-            let blockPos = blueBlock.offsetLeft;
-            if (moveLeft && blockPos > 0) blueBlock.style.left = blockPos - 5 + "px";
-            if (moveRight && blockPos < gameArea.offsetWidth - blueBlock.offsetWidth) 
-                blueBlock.style.left = blockPos + 5 + "px";
-            requestAnimationFrame(moveBlueBlock);
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();  // Initial resize
+
+        // Starting countdown function
+        function countdown() {
+            let countdownValue = 3;
+            startingIn.textContent = `Starting in ${countdownValue}`;
+            let countdownInterval = setInterval(() => {
+                countdownValue--;
+                startingIn.textContent = `Starting in ${countdownValue}`;
+                if (countdownValue === 0) {
+                    clearInterval(countdownInterval);
+                    startingIn.style.display = 'none';
+                    update();  // Start the game loop
+                    startGameLoop();
+                }
+            }, 1000);
         }
-        moveBlueBlock();
 
-        gameArea.addEventListener("mousedown", (e) => {
-            moveLeft = e.clientX < window.innerWidth / 2;
-            moveRight = !moveLeft;
-        });
-        gameArea.addEventListener("mouseup", () => { moveLeft = moveRight = false; });
-        gameArea.addEventListener("touchstart", (e) => {
-            moveLeft = e.touches[0].clientX < window.innerWidth / 2;
-            moveRight = !moveLeft;
-        });
-        gameArea.addEventListener("touchend", () => { moveLeft = moveRight = false; });
+        // Start the game loop and timer
+        function startGameLoop() {
+            const timer = setInterval(() => {
+                if (!gameOver && timeRemaining > 0) {
+                    timeRemaining--;
+                    timerElement.textContent = `Time: ${timeRemaining}`;
+                    if (timeRemaining % 30 === 0 && fallingBlockSpeed < 10) {
+                        fallingBlockSpeed += 1;
+                    }
+                }
+            }, 1000);
 
-        function createProduct() {
-    const product = document.createElement("img");
-    product.src = products[Math.floor(Math.random() * products.length)];
-    product.classList.add("product");
-    product.style.left = `${Math.floor(Math.random() * (gameArea.offsetWidth - 60))}px`;
-    gameArea.appendChild(product);
+            update();
+        }
 
-    console.log("Product created:", product);
+        // Game loop
+        function update() {
+            if (gameOver) return;
 
-    let animation = product.animate(
-        [{ transform: "translateY(0)" }, { transform: "translateY(100vh)" }],
-        { duration: fallSpeed, easing: "linear" }
-    );
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    animation.onfinish = () => {
-        const productRect = product.getBoundingClientRect();
-        const blockRect = blueBlock.getBoundingClientRect();
+            // Draw the blender image as the catch block
+            const imageWidth = 100;
+            const imageHeight = (blenderImage.height / blenderImage.width) * imageWidth;
+            ctx.drawImage(blenderImage, blockX, canvas.height - imageHeight, imageWidth, imageHeight);
 
-        if (
-            productRect.bottom >= blockRect.top &&
-            productRect.left < blockRect.right &&
-            productRect.right > blockRect.left
-        ) {
-            if (product.src === correctProduct) {
-                score += 10;
-                scoreDisplay.textContent = `Score: ${score}`;
-            } else {
-                endGame();
+            // Draw the falling block image
+            const fallingImageWidth = 100;
+            const fallingImageHeight = (fallingBlockImage.height / fallingBlockImage.width) * fallingImageWidth;
+            ctx.drawImage(fallingBlockImage, fallingBlockX, fallingBlockY, fallingImageWidth, fallingImageHeight);
+
+            fallingBlockY += fallingBlockSpeed;
+
+            // Check if the falling item is caught by the blender
+            if (fallingBlockY + fallingImageHeight >= canvas.height - imageHeight &&
+                fallingBlockX + fallingImageWidth > blockX &&
+                fallingBlockX < blockX + imageWidth) {
+                score++;
+                scoreElement.textContent = `Score: ${score}`;
+                fallingBlockY = 0;
+                fallingBlockX = Math.random() * canvas.width;
+                fallingBlockImage = (fallingBlockImage === watermelonImage) ? schoolIconImage : watermelonImage;
             }
-        }
-        product.remove();
-    };
-}
 
-        function endGame() {
-            clearInterval(gameTimer);
-            clearInterval(spawnInterval);
-            message.textContent = `Game Over! Your score: ${score}`;
-            popup.style.display = "flex";
-            startButton.style.display = "block";
+            if (fallingBlockY + fallingImageHeight > canvas.height) {
+                gameOver = true;
+                showGameOver();
+            }
+
+            if (timeRemaining === 0) {
+                gameOver = true;
+                showGameOver();
+            }
+
+            requestAnimationFrame(update);
         }
 
-        restartButton.addEventListener("click", startGame);
-        startButton.addEventListener("click", startGame);
+        // Show game over pop-up
+        function showGameOver() {
+            clearInterval(timer);
+            popUp.style.display = 'flex';
+            popUpMessage.textContent = `Game Over! Your score: ${score}`;
+        }
+
+        // Restart game
+        restartGameBtn.addEventListener('click', () => {
+            initGame();
+        });
+
+        // Next page button functionality
+        nextPageBtn.addEventListener('click', () => {
+            window.location.href = "next_page.html";
+        });
+
     </script>
 </body>
 </html>
