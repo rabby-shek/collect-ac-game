@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: "Orbitron", serif;
+  padding: 10px;
+  overflow: hidden; /* Prevents scrolling */
+}
+
+#game-container {
+  text-align: center;
+  width: 100%;
+  max-width: 500px; /* Max width for larger screens */
+}
+
+#game-area {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* 60% of the viewport height */
+  max-width: 470px; /* Maximum width */
+  max-height: 600px;
+  border: 20px solid transparent; /* Set border width */
+  border-image: url("https://img.freepik.com/free-vector/geometric-shapes-pattern-background_1319-136.jpg?uid=R179538254&ga=GA1.1.1248623428.1734437876&semt=ais_hybrid")
+    30 stretch; /* Image as border */
+  background-color: #fff;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+#score-board {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#score {
+  font-size: 14px;
+  font-weight: 700;
+}
+.time {
+  position: absolute;
+  font-size: 14px;
+  top: 10px;
+  right: 10px;
+  font-weight: 700;
+}
+#result {
+  font-size: 14px;
+}
+.message{
+  font-size: 14px;
+  color: #ff1b1b;
+}
+#start-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.btn-design {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #111111;
+  border: 2px solid #111111;
+  outline: none;
+  margin: 20px 0;
+  font-weight: bold;
+}
+/* @keyframes moveDown {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%; 
+  }
+} */
+.product {
+  position: absolute;
+  width: 10vw; /* Make the fruit's width responsive to the viewport width */
+  max-width: 60px; /* Maximum size for the fruit */
+  cursor: pointer;
+  /* animation: moveDown 3s linear infinite; */
+}
+
+.pop-up {
+  display: none;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #111111;
+  padding: 20px;
+  width: 80%; /* Reduce width */
+  max-width: 500px;
+  background-color: #fff;
+  z-index: 10;
+}
+.pop-up-button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.starting-in{
+  display: none;
+  font-size: 14px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #111111;
+  padding: 20px;
+  width: 80%; /* Reduce width */
+  max-width: 500px;
+  background-color: #fff;
+  z-index: 10;
+}
+.blue-block {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 20px;
+            background-color: blue;
+            border-radius: 5px;
+        }
+@media (max-width: 600px) {
+  #game-area {
+    height: 60vh; /* Adjust the game area height on smaller screens */
+  }
+
+  .product {
+    width: 20vw; /* Increase fruit size slightly for smaller screens */
+    max-width: 50px;
+  }
+}
+
+@media (max-width: 400px) {
+  #game-area {
+    height: 60vh; /* Further reduce the game area height on very small screens */
+  }
+
+  .product {
+    width: 25vw; /* Increase fruit size more on very small screens */
+    max-width: 45px;
+  }
+}
+
+    </style>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <h3>Collect ACs</h3>
+        <div id="game-area">
+            <div class="time"></div>
+            <div id="score-board">
+                <span id="score">Score: 0</span>
+            </div>
+            <button id="start-btn" class="btn-design">Start Game</button>
+            <div class="pop-up">
+                <p class="message"></p>
+                <div class="pop-up-button-container">
+                    <button class="restart-btn btn-design">Restart</button>
+                    <button class="next-btn btn-design">Next</button>
+                </div>
+            </div>
+            <div class="starting-in">Starting in 3</div>
+            <div class="blue-block" id="blue-block"></div>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <script>
+    const gameArea = document.getElementById("game-area");
+        const scoreDisplay = document.getElementById("score");
+        const startButton = document.getElementById("start-btn");
+        const timeDisplay = document.querySelector(".time");
+        const blueBlock = document.getElementById("blue-block");
+        const popup = document.getElementById("game-popup");
+        const message = document.querySelector(".message");
+        const restartButton = document.querySelector(".restart-btn");
+        let score = 0;
+        let remainingTime = 120;
+        let gameTimer, spawnInterval;
+        let fallSpeed = 5000;
+        let moveLeft = false, moveRight = false;
+
+        let products = [
+            "https://rangsemart.com.bd/upload/Product/thumbnail_img1730969599.jpeg",
+            "https://rangsemart.com.bd/upload/Product/thumbnail_img1725422009.png"
+        ];
+        let correctProduct = products[0];
+
+        function startGame() {
+            startButton.style.display = "none";
+            popup.style.display = "none";
+            score = 0;
+            remainingTime = 120;
+            scoreDisplay.textContent = `Score: ${score}`;
+            timeDisplay.textContent = `Time: ${remainingTime} sec`;
+            gameTimer = setInterval(updateTime, 1000);
+            spawnInterval = setInterval(createProduct, 800);
+        }
+
+        function updateTime() {
+            remainingTime--;
+            timeDisplay.textContent = `Time: ${remainingTime} sec`;
+            if (remainingTime <= 0) endGame();
+        }
+
+        function moveBlueBlock() {
+            let blockPos = blueBlock.offsetLeft;
+            if (moveLeft && blockPos > 0) blueBlock.style.left = blockPos - 5 + "px";
+            if (moveRight && blockPos < gameArea.offsetWidth - blueBlock.offsetWidth) 
+                blueBlock.style.left = blockPos + 5 + "px";
+            requestAnimationFrame(moveBlueBlock);
+        }
+        moveBlueBlock();
+
+        gameArea.addEventListener("mousedown", (e) => {
+            moveLeft = e.clientX < window.innerWidth / 2;
+            moveRight = !moveLeft;
+        });
+        gameArea.addEventListener("mouseup", () => { moveLeft = moveRight = false; });
+        gameArea.addEventListener("touchstart", (e) => {
+            moveLeft = e.touches[0].clientX < window.innerWidth / 2;
+            moveRight = !moveLeft;
+        });
+        gameArea.addEventListener("touchend", () => { moveLeft = moveRight = false; });
+
+        function createProduct() {
+    const product = document.createElement("img");
+    product.src = products[Math.floor(Math.random() * products.length)];
+    product.classList.add("product");
+    product.style.left = `${Math.floor(Math.random() * (gameArea.offsetWidth - 60))}px`;
+    gameArea.appendChild(product);
+
+    console.log("Product created:", product);
+
+    let animation = product.animate(
+        [{ transform: "translateY(0)" }, { transform: "translateY(100vh)" }],
+        { duration: fallSpeed, easing: "linear" }
+    );
+
+    animation.onfinish = () => {
+        const productRect = product.getBoundingClientRect();
+        const blockRect = blueBlock.getBoundingClientRect();
+
+        if (
+            productRect.bottom >= blockRect.top &&
+            productRect.left < blockRect.right &&
+            productRect.right > blockRect.left
+        ) {
+            if (product.src === correctProduct) {
+                score += 10;
+                scoreDisplay.textContent = `Score: ${score}`;
+            } else {
+                endGame();
+            }
+        }
+        product.remove();
+    };
+}
+
+        function endGame() {
+            clearInterval(gameTimer);
+            clearInterval(spawnInterval);
+            message.textContent = `Game Over! Your score: ${score}`;
+            popup.style.display = "flex";
+            startButton.style.display = "block";
+        }
+
+        restartButton.addEventListener("click", startGame);
+        startButton.addEventListener("click", startGame);
+    </script>
+</body>
+</html>
